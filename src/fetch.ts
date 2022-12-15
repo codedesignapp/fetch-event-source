@@ -73,9 +73,14 @@ export function fetchEventSource(input: RequestInfo, {
 
         let curRequestController: AbortController;
         function onVisibilityChange() {
-            curRequestController.abort(); // close existing request on every visibility change
-            if (!document.hidden) {
-                create(); // page is now visible again, recreate request.
+            try {
+                curRequestController.abort(); // close existing request on every visibility change
+                if (!document.hidden) {
+                    create(); // page is now visible again, recreate request.
+                }
+            }
+            catch(err) {
+                console.log(err,"an error occured while aborting preview");
             }
         }
 
